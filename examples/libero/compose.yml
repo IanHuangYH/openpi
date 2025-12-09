@@ -16,9 +16,10 @@ services:
       - $PWD:/app
       - ../../data:/data
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ${HOME}/.Xauthority:/root/.Xauthority:ro
     environment:
       - CLIENT_ARGS
-      - DISPLAY=$DISPLAY
+      - DISPLAY=${DISPLAY}
       - MUJOCO_GL=${MUJOCO_GL:-egl}
     deploy:
       resources:
