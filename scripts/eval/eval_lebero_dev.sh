@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker compose -f examples/libero/compose.yml up -d
+docker compose -f examples/libero/compose.dev.yml up -d
