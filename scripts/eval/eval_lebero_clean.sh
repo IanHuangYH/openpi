@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker compose -f examples/libero/compose.eval.yml up -d
+SERVER_ARGS="--env LIBERO" docker compose -f examples/libero/compose.eval.yml up --build

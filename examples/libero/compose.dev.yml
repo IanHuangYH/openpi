@@ -1,5 +1,6 @@
 # Run with:
 # docker compose -f examples/libero/compose.yml up --build
+name: libero-dev
 services:
   runtime:
     image: libero
@@ -16,10 +17,14 @@ services:
       - $PWD:/app
       - ../../data:/data
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ${HOME}/.Xauthority:/root/.Xauthority:ro
     environment:
       - CLIENT_ARGS
-      - DISPLAY=$DISPLAY
-      - MUJOCO_GL=${MUJOCO_GL:-egl}
+      - DISPLAY=${DISPLAY}
+      - MUJOCO_GL=${MUJOCO_GL:-osmesa}
+    # Install openpi-client package on startup, then keep container alive for development
+    # command: /bin/bash -c "cd /app && GIT_LFS_SKIP_SMUDGE=1 uv sync && tail -f /dev/null"
+    command: /bin/bash -c "tail -f /dev/null"
     deploy:
       resources:
         reservations:
@@ -43,6 +48,8 @@ services:
       - SERVER_ARGS
       - OPENPI_DATA_HOME=/openpi_assets
       - IS_DOCKER=true
+    # Install openpi package on startup, then keep container alive for development
+    command: /bin/bash -c "cd /app && GIT_LFS_SKIP_SMUDGE=1 uv sync && tail -f /dev/null"
 
     # Comment out this block if not running on a machine with GPUs.
     deploy:
