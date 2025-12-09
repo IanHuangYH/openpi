@@ -13,6 +13,19 @@
         "DISPLAY": ":1",
         "LIBERO_SHOW_RENDER": "1"
       }
+    },
+    {
+      "name": "Policy Server",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/serve_policy.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "MUJOCO_GL": "osmesa",
+        "DISPLAY": ":1",
+        "LIBERO_SHOW_RENDER": "1"
+      }
     }
   ]
 }
