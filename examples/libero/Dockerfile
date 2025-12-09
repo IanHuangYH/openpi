@@ -24,7 +24,8 @@ RUN apt-get update && \
     libxrender1 \
     libxext6 \
     libglvnd0 \
-    libglvnd-dev
+    libglvnd-dev \
+    git
 
 WORKDIR /app
 

@@ -24,6 +24,7 @@ class WebsocketClientPolicy(_base_policy.BasePolicy):
             self._uri += f":{port}"
         self._packer = msgpack_numpy.Packer()
         self._api_key = api_key
+        # Connect to server via WebSocket, # Receive metadata from server
         self._ws, self._server_metadata = self._wait_for_server()
 
     def get_server_metadata(self) -> Dict:
@@ -45,8 +46,11 @@ class WebsocketClientPolicy(_base_policy.BasePolicy):
 
     @override
     def infer(self, obs: Dict) -> Dict:  # noqa: UP006
+        # 1. Client sends observation to server
         data = self._packer.pack(obs)
         self._ws.send(data)
+        
+        # 2. Client receives action from server
         response = self._ws.recv()
         if isinstance(response, str):
             # we're expecting bytes; if the server sends a string, it's an error.

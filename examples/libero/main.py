@@ -70,6 +70,7 @@ def eval_libero(args: Args) -> None:
     else:
         raise ValueError(f"Unknown task suite: {args.task_suite_name}")
 
+    # Create WebSocket client pointing to server
     client = _websocket_client_policy.WebsocketClientPolicy(args.host, args.port)
 
     # Start evaluation
@@ -140,7 +141,7 @@ def eval_libero(args: Args) -> None:
                             "prompt": str(task_description),
                         }
 
-                        # Query model to get action
+                        # Query model to get action, # Sends via WebSocket, waits for response
                         action_chunk = client.infer(element)["actions"]
                         assert (
                             len(action_chunk) >= args.replan_steps

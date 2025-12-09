@@ -49,15 +49,20 @@ class WebsocketPolicyServer:
         logger.info(f"Connection from {websocket.remote_address} opened")
         packer = msgpack_numpy.Packer()
 
+        # 1. Server sends metadata to client
         await websocket.send(packer.pack(self._metadata))
 
         prev_total_time = None
         while True:
             try:
                 start_time = time.monotonic()
+                
+                # 2. Server waits for observation from client
                 obs = msgpack_numpy.unpackb(await websocket.recv())
 
                 infer_time = time.monotonic()
+                
+                # 3. Server runs inference
                 action = self._policy.infer(obs)
                 infer_time = time.monotonic() - infer_time
 
@@ -68,6 +73,7 @@ class WebsocketPolicyServer:
                     # We can only record the last total time since we also want to include the send time.
                     action["server_timing"]["prev_total_ms"] = prev_total_time * 1000
 
+                # 4. Server sends action back to client
                 await websocket.send(packer.pack(action))
                 prev_total_time = time.monotonic() - start_time
 
