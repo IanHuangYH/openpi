@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "LIBERO osmesa",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/libero/main.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "MUJOCO_GL": "osmesa",
+        "DISPLAY": ":1",
+        "LIBERO_SHOW_RENDER": "1"
+      }
+    }
+  ]
+}
